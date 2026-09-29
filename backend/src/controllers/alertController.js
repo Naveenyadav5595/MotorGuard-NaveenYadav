@@ -51,10 +51,6 @@ export const acknowledgeController= async (req,res)=>{
       alertId: alert._id
     });
      
-//     console.log("before alert acknowledge")
-//     console.log("REQ.USER:", req.user);
-//    console.log("USER ID:", req.user?.id);
-//    console.log("USERNAME:", req.user?.username);
      // creating alert acknowlwdge log
         const user = await User.findById(req.user.userId);
         if (!user) {
@@ -69,10 +65,7 @@ export const acknowledgeController= async (req,res)=>{
           motorId:alert.motorId,
           description:`alert with ${alertId} was acknowledge by user ${user.username}`
         });
-        // console.log("LOG OBJECT:", newlog);
         await newlog.save();
-
-   
 
     return res.status(200).json({
         message:"alerts acknowledged successfully"

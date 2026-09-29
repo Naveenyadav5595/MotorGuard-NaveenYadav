@@ -83,14 +83,24 @@ export const motorCreateController= async (req,res)=>{
     await newMotor.save();
 
     // creating motor create log
+  try{
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+        return res.status(401).json({
+           message: "User not found"
+        });
+    }
     const newlog= new Log({
-          userId:req.user.id,
-          userName:req.user.username,
+          userId:req.user.userId,
+          userName:user.username,
           action:"Motor_Created",
           motorId,
-          description:`New Motor with ${motorId} was created by user ${req.user.username}`
+          description:`New Motor with ${motorId} was created by user ${user.username}`
     });
     await newlog.save();
+  }catch(err){
+      console.error("Audit log error:", err);
+  }
 
     return res.status(201).json({message: "Motor created successfully",motor: newMotor});
 

@@ -98,7 +98,7 @@ function Alerts() {
 
   useEffect(() => {
 
-    const socket = io("http://localhost:8000");
+    const socket = io(API_URL);
 
     socket.on("newAlert", (newAlert) => {
         setAlerts((prevAlerts) => [
@@ -201,7 +201,7 @@ function Alerts() {
        const token = localStorage.getItem("token");
 
        const response = await fetch(
-        `${API_URL}/${alertId}/acknowledge`,
+        `${API_URL}/alerts/${alertId}/acknowledge`,
         {
           method: "PATCH",
           headers: {
@@ -234,7 +234,7 @@ function Alerts() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `${API_URL}/${alertId}/delete`,
+      `${API_URL}/alerts/${alertId}/delete`,
       {
         method: "DELETE",
         headers: {
